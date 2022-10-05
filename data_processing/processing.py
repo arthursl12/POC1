@@ -14,8 +14,8 @@ class DatasetProcessing:
         cols = index_cols + settings_cols + sensors_cols
         return index_cols, settings_cols, sensors_cols, cols
 
-    def read_dataset(self,scenario=1):
-        folder='/content/CMaps/'
+    def read_dataset(self,scenario=1,folder='/content/CMaps/'):
+        folder=folder
         _,_,_,cols = self.column_names()
         train = pd.read_csv(
             (folder+f'train_FD00{scenario}.txt'), 
@@ -68,5 +68,6 @@ class DatasetProcessing:
             train = train_df
         y_train = pd.DataFrame(train['RUL'])
         X_train = train
-        X_train = X_train.drop(index_cols+settings_cols+['RUL'], axis=1)
+        idx_c, set_c, _, _ = self.column_names()
+        X_train = X_train.drop(idx_c+set_c+['RUL'], axis=1)
         return X_train, y_train
